@@ -70,7 +70,7 @@ public class DataStreamKafkaSinkToGPSample {
                 //否则走FissionGroupMember解析逻辑
                 return JSON.parseObject(message, FissionGroupMember.class);
             }
-        }).timeWindowAll(Time.seconds(30)) //设置时间窗口30秒
+        }).timeWindowAll(Time.seconds(30)) //设置时间窗口
                 .apply(new AllWindowFunction<Fission, List<Fission>, TimeWindow>() {
                     @Override
                     public void apply(TimeWindow window, Iterable<Fission> values, Collector<List<Fission>> out) throws Exception {
