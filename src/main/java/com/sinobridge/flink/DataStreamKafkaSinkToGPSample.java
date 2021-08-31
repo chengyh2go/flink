@@ -84,12 +84,14 @@ public class DataStreamKafkaSinkToGPSample {
                     }
                 });
 
+        /*
+        //使用druid创建连接池
         String driverName = properties.getProperty("driverName");
         String url = properties.getProperty("url");
         String username = properties.getProperty("username");
-        String password = properties.getProperty("password");
+        String password = properties.getProperty("password");*/
 
-        soso.addSink(new SinkToGreenplum(driverName,url,username,password));
+        soso.addSink(new SinkToGreenplum(properties));
 
         try {
             env.execute("DataStreamKafkaSinkToGPSample");

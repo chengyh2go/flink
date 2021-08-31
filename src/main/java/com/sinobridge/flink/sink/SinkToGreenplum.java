@@ -1,31 +1,27 @@
 package com.sinobridge.flink.sink;
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.sinobridge.flink.entity.Fission;
 import com.sinobridge.flink.entity.FissionGroup;
 import com.sinobridge.flink.entity.FissionGroupMember;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 
 public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
 
     private Connection conn = null;
     private PreparedStatement pstmt=null;
-    private String driverName;
-    private String url;
-    private String username;
-    private String password;
+    private Properties prop;
 
-    public SinkToGreenplum(String driverName, String url, String username, String password) {
-        this.driverName = driverName;
-        this.url = url;
-        this.username = username;
-        this.password = password;
+    public SinkToGreenplum(Properties prop) {
+        this.prop=prop;
     }
 
     @Override
@@ -35,14 +31,15 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
         //Class.forName("org.postgresql.Driver");
         try {
             super.open(parameters);
-            //注册驱动
+            /*//注册驱动
             Class.forName(driverName);
-
             //创建数据库连接
-            /*String url = "jdbc:postgresql://192.168.250.31:5432/act";
-            String username = "dp";
-            String password = "123456";*/
-            conn = DriverManager.getConnection(url,username,password);
+            conn = DriverManager.getConnection(url,username,password);*/
+
+            //使用druid管理连接池
+            DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
+            conn = dataSource.getConnection();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +60,7 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                         String group_code = fg.getGroup_code();
                         pstmt.setInt(1,id);
                         pstmt.setString(2,group_code);
-                        pstmt.addBatch();
+                        pstmt.addBatch(); //将sql加入到批处理
                     } else if (fission instanceof FissionGroupMember) {
                         sql = "insert into fission_group_member(id,group_id) values(?,?)";
                         pstmt = conn.prepareStatement(sql);
@@ -72,10 +69,13 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                         String group_id = fgm.getGroup_id();
                         pstmt.setInt(1,id);
                         pstmt.setString(2,group_id);
-                        pstmt.addBatch();
+                        pstmt.addBatch(); //将sql加入到批处理
                     }
                 }
+
+                //执行批任务
                 pstmt.executeBatch();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
