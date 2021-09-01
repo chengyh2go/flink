@@ -24,6 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * fission_group: {id: 1001, group_code: 'group_code_1'}
+ * fission_group_member: {id: 1001, group_id: 'group_id_1'}
+ */
 
 public class DataStreamKafkaSinkToGPSample {
     public static void main(String[] args) {
@@ -74,6 +78,7 @@ public class DataStreamKafkaSinkToGPSample {
                 .apply(new AllWindowFunction<Fission, List<Fission>, TimeWindow>() {
                     @Override
                     public void apply(TimeWindow window, Iterable<Fission> values, Collector<List<Fission>> out) throws Exception {
+                        System.out.println(values);
                         List<Fission> list = new ArrayList<>();
                         for (Fission item : values) {
                             list.add(item);

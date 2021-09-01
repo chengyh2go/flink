@@ -19,4 +19,12 @@ public class FissionGroup extends Fission {
     public void setGroup_code(String group_code) {
         this.group_code = group_code;
     }
+
+    @Override
+    public String toString() {
+        return "FissionGroup{" +
+                "id=" + id +
+                ", group_code='" + group_code + '\'' +
+                '}';
+    }
 }

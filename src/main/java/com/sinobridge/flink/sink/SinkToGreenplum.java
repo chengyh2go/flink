@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,6 +19,7 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
 
     private Connection conn = null;
     private PreparedStatement pstmt=null;
+    DataSource dataSource = null;
     private Properties prop;
 
     public SinkToGreenplum(Properties prop) {
@@ -37,9 +39,11 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
             conn = DriverManager.getConnection(url,username,password);*/
 
             //使用druid管理连接池
-            DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
+            if ( dataSource == null ) {
+                dataSource = DruidDataSourceFactory.createDataSource(prop);
+            }
             conn = dataSource.getConnection();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,32 +54,50 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
         if (fissionList.size() != 0 ) {
             //创建prepareStatement对象
             String sql = null;
-            try {
-                for (Fission fission: fissionList) {
-                    if (fission instanceof FissionGroup) {
-                        sql = "insert into fission_group(id,group_code) values(?,?)";
-                        pstmt = conn.prepareStatement(sql);
-                        FissionGroup fg = ((FissionGroup) fission);
-                        Integer id = fg.getId();
-                        String group_code = fg.getGroup_code();
-                        pstmt.setInt(1,id);
-                        pstmt.setString(2,group_code);
-                        pstmt.addBatch(); //将sql加入到批处理
-                    } else if (fission instanceof FissionGroupMember) {
-                        sql = "insert into fission_group_member(id,group_id) values(?,?)";
-                        pstmt = conn.prepareStatement(sql);
-                        FissionGroupMember fgm = ((FissionGroupMember) fission);
-                        Integer id = fgm.getId();
-                        String group_id = fgm.getGroup_id();
-                        pstmt.setInt(1,id);
-                        pstmt.setString(2,group_id);
-                        pstmt.addBatch(); //将sql加入到批处理
-                    }
+            List<FissionGroup>  fissionGroupList = new ArrayList<>();
+            List<FissionGroupMember>  fissionGroupMemberList= new ArrayList<>();
+
+
+            //遍历fissionList，切分成FissionGroup和FissionGroupMember2个List
+            for (Fission fission: fissionList ) {
+                if (fission instanceof FissionGroup) {
+                    FissionGroup fg = ((FissionGroup) fission);
+                    fissionGroupList.add(fg);
+                } else if (fission instanceof FissionGroupMember) {
+                    FissionGroupMember fgm = ((FissionGroupMember) fission);
+                    fissionGroupMemberList.add(fgm);
                 }
+            }
 
-                //执行批任务
+
+            try {
+                //针对fissionGroupList做批操作
+                conn.setAutoCommit(false);
+                sql = "insert into fission_group(id,group_code) values(?,?)";
+                pstmt = conn.prepareStatement(sql);
+                for (FissionGroup fg: fissionGroupList) {
+                    Integer id = fg.getId();
+                    String group_code = fg.getGroup_code();
+                    pstmt.setInt(1,id);
+                    pstmt.setString(2,group_code);
+                    pstmt.addBatch(); //将sql加入到批处理
+                }
                 pstmt.executeBatch();
+                conn.commit();
 
+                //针对fissionGroupMemberList做批操作
+                conn.setAutoCommit(false);
+                sql = "insert into fission_group_member(id,group_id) values(?,?)";
+                pstmt = conn.prepareStatement(sql);
+                for (FissionGroupMember fgm: fissionGroupMemberList) {
+                    Integer id = fgm.getId();
+                    String group_id = fgm.getGroup_id();
+                    pstmt.setInt(1,id);
+                    pstmt.setString(2,group_id);
+                    pstmt.addBatch(); //将sql加入到批处理
+                }
+                pstmt.executeBatch();
+                conn.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
