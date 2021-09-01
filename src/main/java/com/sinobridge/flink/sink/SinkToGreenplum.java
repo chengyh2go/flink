@@ -19,7 +19,7 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
 
     private Connection conn = null;
     private PreparedStatement pstmt=null;
-    DataSource dataSource = null;
+    private DataSource dataSource = null;
     private Properties prop;
 
     public SinkToGreenplum(Properties prop) {
