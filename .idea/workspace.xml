@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="" />
+    <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSample01$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSample01.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamSocketSample$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamSocketSample$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamSocketSample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/demo/Demo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/Fission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroupMember.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/sink/SinkToGreenplum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +183,7 @@
       <workItem from="1630448490218" duration="1773000" />
       <workItem from="1630458131886" duration="10331000" />
       <workItem from="1630551018276" duration="14495000" />
-      <workItem from="1630591496695" duration="566000" />
+      <workItem from="1630591496695" duration="1272000" />
     </task>
     <servers />
   </component>
