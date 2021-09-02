@@ -19,10 +19,7 @@ import org.apache.flink.util.Collector;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * fission_group: {id: 1001, group_code: 'group_code_1'}
@@ -74,15 +71,16 @@ public class DataStreamKafkaSinkToGPSample {
                 //否则走FissionGroupMember解析逻辑
                 return JSON.parseObject(message, FissionGroupMember.class);
             }
-        }).timeWindowAll(Time.seconds(30)) //设置时间窗口
+        }).timeWindowAll(Time.seconds(Long.parseLong(properties.getProperty("timeWindow")))) //设置时间窗口
                 .apply(new AllWindowFunction<Fission, List<Fission>, TimeWindow>() {
                     @Override
                     public void apply(TimeWindow window, Iterable<Fission> values, Collector<List<Fission>> out) throws Exception {
-                        System.out.println(values);
+                        //System.out.println("进入时间窗口的时间：" + new Date());
                         List<Fission> list = new ArrayList<>();
                         for (Fission item : values) {
                             list.add(item);
                         }
+                        System.out.println(new Date() + " 收集到的条目数：" + list.size());
                         if (list.size() > 0) {
                             out.collect(list);
                         }

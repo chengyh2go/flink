@@ -11,9 +11,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
 
@@ -71,33 +69,52 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
 
 
             try {
+                long startTime = 0;
+                long endTime = 0;
+                int transactionId = 0;
                 //针对fissionGroupList做批操作
-                conn.setAutoCommit(false);
-                sql = "insert into fission_group(id,group_code) values(?,?)";
-                pstmt = conn.prepareStatement(sql);
-                for (FissionGroup fg: fissionGroupList) {
-                    Integer id = fg.getId();
-                    String group_code = fg.getGroup_code();
-                    pstmt.setInt(1,id);
-                    pstmt.setString(2,group_code);
-                    pstmt.addBatch(); //将sql加入到批处理
+                if (fissionGroupList.size() > 0 ) {
+                    startTime = new Date().getTime();
+                    transactionId = new Random().nextInt(100000);
+                    System.out.println(transactionId + " fissionGroup Sink id: " + transactionId +" 流程开始时间：" + new Date());
+                    conn.setAutoCommit(false);
+                    sql = "insert into fission_group(id,group_code) values(?,?)";
+                    pstmt = conn.prepareStatement(sql);
+                    for (FissionGroup fg: fissionGroupList) {
+                        Long id = fg.getId();
+                        String group_code = fg.getGroup_code();
+                        pstmt.setLong(1,id);
+                        pstmt.setString(2,group_code);
+                        pstmt.addBatch(); //将sql加入到批处理
+                    }
+                    pstmt.executeBatch();
+                    conn.commit();
+                    endTime = new Date().getTime();
+                    System.out.println("Sink id: " +transactionId + " "+ new Date() +" 本次写fission_group条数：" + fissionGroupList.size() + "，运行时间："+ (endTime- startTime) + " 毫秒");
                 }
-                pstmt.executeBatch();
-                conn.commit();
 
                 //针对fissionGroupMemberList做批操作
-                conn.setAutoCommit(false);
-                sql = "insert into fission_group_member(id,group_id) values(?,?)";
-                pstmt = conn.prepareStatement(sql);
-                for (FissionGroupMember fgm: fissionGroupMemberList) {
-                    Integer id = fgm.getId();
-                    String group_id = fgm.getGroup_id();
-                    pstmt.setInt(1,id);
-                    pstmt.setString(2,group_id);
-                    pstmt.addBatch(); //将sql加入到批处理
+                if (fissionGroupMemberList.size() >0 ) {
+                    startTime = new Date().getTime();
+                    transactionId = new Random().nextInt(100000);
+                    System.out.println("fissionGroupMember Sink id: " + transactionId +" 流程开始时间：" + new Date());
+                    conn.setAutoCommit(false);
+                    sql = "insert into fission_group_member(id,group_id) values(?,?)";
+                    pstmt = conn.prepareStatement(sql);
+                    for (FissionGroupMember fgm: fissionGroupMemberList) {
+                        Long id = fgm.getId();
+                        String group_id = fgm.getGroup_id();
+                        pstmt.setLong(1,id);
+                        pstmt.setString(2,group_id);
+                        pstmt.addBatch(); //将sql加入到批处理
+                    }
+                    pstmt.executeBatch();
+                    conn.commit();
+                    endTime = new Date().getTime();
+                    System.out.println("Sink id: " +transactionId + " "+ new Date() + " 本次写fission_group_member条数：" + fissionGroupMemberList.size() + "，运行时间："+ (endTime- startTime) + " 毫秒");
                 }
-                pstmt.executeBatch();
-                conn.commit();
+
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

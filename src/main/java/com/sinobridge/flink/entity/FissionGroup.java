@@ -1,14 +1,14 @@
 package com.sinobridge.flink.entity;
 
 public class FissionGroup extends Fission {
-    private Integer id;
+    private Long id;
     private String group_code;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
