@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flink.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flink.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/flink.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroup.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroup.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroupMember.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/entity/FissionGroupMember.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/sink/SinkToGreenplum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sinobridge/flink/sink/SinkToGreenplum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/log4j.properties" afterDir="false" />
-    </list>
+    <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +39,9 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1xPDtNC53Pd2RdPsk8UewYlXUTw" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -182,7 +167,7 @@
       <workItem from="1630448490218" duration="1773000" />
       <workItem from="1630458131886" duration="10331000" />
       <workItem from="1630551018276" duration="14495000" />
-      <workItem from="1630591496695" duration="294000" />
+      <workItem from="1630591496695" duration="566000" />
     </task>
     <servers />
   </component>
