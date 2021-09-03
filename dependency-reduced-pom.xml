@@ -26,7 +26,7 @@
               <transformers>
                 <transformer>
                   <manifestEntries>
-                    <Main-Class>com.sinobridge.config.ConfigSample</Main-Class>
+                    <Main-Class>com.sinobridge.flink.DataStreamKafkaSinkToGPSample</Main-Class>
                     <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
                     <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
                   </manifestEntries>

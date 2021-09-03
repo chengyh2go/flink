@@ -13,14 +13,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
-public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
+public class SinkToGreenplumMultiTransaction extends RichSinkFunction<List<Fission>> {
 
     private Connection conn = null;
     private PreparedStatement pstmt=null;
     private DataSource dataSource = null;
     private Properties prop;
 
-    public SinkToGreenplum(Properties prop) {
+    public SinkToGreenplumMultiTransaction(Properties prop) {
         this.prop=prop;
     }
 
@@ -30,22 +30,15 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
         //注册驱动
         //Class.forName("org.postgresql.Driver");
         try {
-            System.out.println("into open");
             super.open(parameters);
-            /*//使用DriverManager创建连接
-            //注册驱动
-            String driverName = prop.getProperty("driverClassName");
+            /*//注册驱动
             Class.forName(driverName);
-            String url = prop.getProperty("url");
-            String username = prop.getProperty("username");
-            String password = prop.getProperty("password");
             //创建数据库连接
             conn = DriverManager.getConnection(url,username,password);*/
 
-            //使用druid创建连接池
+            //使用druid管理连接池
             if ( dataSource == null ) {
                 dataSource = DruidDataSourceFactory.createDataSource(prop);
-                System.out.println("创建datasource");
             }
             conn = dataSource.getConnection();
 
@@ -75,7 +68,6 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
             }
 
 
-
             long startTime = 0;
             long endTime = 0;
             int transactionId = 0;
@@ -85,7 +77,7 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                     startTime = new Date().getTime();
                     transactionId = new Random().nextInt(100000);
                     System.out.println(transactionId + " fissionGroup Sink id: " + transactionId +" 流程开始时间：" + new Date());
-                    conn.setAutoCommit(false);
+                    //conn.setAutoCommit(false);
                     sql = "insert into fission_group(id,group_code) values(?,?)";
                     pstmt = conn.prepareStatement(sql);
                     for (FissionGroup fg: fissionGroupList) {
@@ -96,15 +88,15 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                         pstmt.addBatch(); //将sql加入到批处理
                     }
                     pstmt.executeBatch();
-                    conn.commit();
+                    //conn.commit();
                     endTime = new Date().getTime();
                     System.out.println("Sink id: " +transactionId + " "+ new Date() +" 本次写fission_group条数：" + fissionGroupList.size() + "，运行时间："+ (endTime- startTime) + " 毫秒");
                 } catch (SQLException e) {
-                    try {
+                    /*try {
                         conn.rollback();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                    }
+                    }*/
                     e.printStackTrace();
                 }
             }
@@ -115,7 +107,7 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                     startTime = new Date().getTime();
                     transactionId = new Random().nextInt(100000);
                     System.out.println("fissionGroupMember Sink id: " + transactionId +" 流程开始时间：" + new Date());
-                    conn.setAutoCommit(false);
+                    //conn.setAutoCommit(false);
                     sql = "insert into fission_group_member(id,group_id) values(?,?)";
                     pstmt = conn.prepareStatement(sql);
                     for (FissionGroupMember fgm: fissionGroupMemberList) {
@@ -126,15 +118,15 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                         pstmt.addBatch(); //将sql加入到批处理
                     }
                     pstmt.executeBatch();
-                    conn.commit();
+                    //conn.commit();
                     endTime = new Date().getTime();
                     System.out.println("Sink id: " +transactionId + " "+ new Date() + " 本次写fission_group_member条数：" + fissionGroupMemberList.size() + "，运行时间："+ (endTime- startTime) + " 毫秒");
                 } catch (SQLException e) {
-                    try {
+                    /*try {
                         conn.rollback();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                    }
+                    }*/
                     e.printStackTrace();
                 }
             }

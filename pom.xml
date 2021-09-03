@@ -70,6 +70,22 @@
             <version>1.2.6</version>
         </dependency>
 
+        <!-- link-statebackend-rocksdb -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-statebackend-rocksdb_2.12</artifactId>
+            <version>1.11.4</version>
+        </dependency>
+
+        <!-- hadoop-client -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+
+
 
     </dependencies>
 
