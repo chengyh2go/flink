@@ -6,7 +6,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
     </list>
@@ -65,6 +66,7 @@
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sinobridge.flink.sink" />
+      <recent name="com.sinobridge.flink" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Code\java\flink\src\main\resources" />
@@ -82,7 +84,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.DataStreamKafkaSinkToGPSample">
+  <component name="RunManager" selected="Application.DataStreamKafkaSinkToGPSampleCheckpoint">
     <configuration name="DataStreamKafkaSample01" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sinobridge.flink.DataStreamKafkaSample01" />
       <module name="flink" />
@@ -109,8 +111,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataStreamSocketSample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sinobridge.flink.DataStreamSocketSample" />
+    <configuration name="DataStreamKafkaSinkToGPSampleCheckpoint" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sinobridge.flink.DataStreamKafkaSinkToGPSampleCheckpoint" />
       <module name="flink" />
       <extension name="coverage">
         <pattern>
@@ -135,12 +137,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JsonSample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sinobridge.json.JsonSample" />
+    <configuration name="FlinkSqlKafkaToGPSample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sinobridge.flink.flinksql.FlinkSqlKafkaToGPSample" />
       <module name="flink" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.sinobridge.json.*" />
+          <option name="PATTERN" value="com.sinobridge.flink.flinksql.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -150,11 +152,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.DataStreamKafkaSinkToGPSampleCheckpoint" />
+        <item itemvalue="Application.FlinkSqlKafkaToGPSample" />
         <item itemvalue="Application.DataStreamKafkaSinkToGPSample" />
         <item itemvalue="Application.Demo" />
         <item itemvalue="Application.DataStreamKafkaSample01" />
-        <item itemvalue="Application.JsonSample" />
-        <item itemvalue="Application.DataStreamSocketSample" />
       </list>
     </recent_temporary>
   </component>
@@ -179,6 +181,8 @@
       <workItem from="1630458131886" duration="10331000" />
       <workItem from="1630551018276" duration="14495000" />
       <workItem from="1630591496695" duration="16692000" />
+      <workItem from="1630723245889" duration="14709000" />
+      <workItem from="1630764826675" duration="45198000" />
     </task>
     <servers />
   </component>

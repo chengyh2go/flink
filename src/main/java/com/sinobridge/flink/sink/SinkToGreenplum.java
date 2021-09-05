@@ -62,7 +62,6 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
             List<FissionGroup>  fissionGroupList = new ArrayList<>();
             List<FissionGroupMember>  fissionGroupMemberList= new ArrayList<>();
 
-
             //遍历fissionList，切分成FissionGroup和FissionGroupMember2个List
             for (Fission fission: fissionList ) {
                 if (fission instanceof FissionGroup) {
@@ -73,8 +72,6 @@ public class SinkToGreenplum extends RichSinkFunction<List<Fission>> {
                     fissionGroupMemberList.add(fgm);
                 }
             }
-
-
 
             long startTime = 0;
             long endTime = 0;
