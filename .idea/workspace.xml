@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/entity/FissionGroupMember.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSampleCheckpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSampleCheckpoint.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +175,7 @@
       <workItem from="1630551018276" duration="14495000" />
       <workItem from="1630591496695" duration="16692000" />
       <workItem from="1630723245889" duration="14709000" />
-      <workItem from="1630764826675" duration="45198000" />
+      <workItem from="1630764826675" duration="46082000" />
     </task>
     <servers />
   </component>

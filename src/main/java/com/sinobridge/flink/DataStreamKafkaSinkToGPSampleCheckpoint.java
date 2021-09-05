@@ -71,8 +71,8 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
         }*/
 
         //2、加载/创建 初始化数据
-        //兴证0.8版本需要
-        //prop.setProperty("zookeeper.connect","192.25.105.188:2181");
+        //xyzq0.8版本需要
+        //prop.setProperty("zookeeper.connect","192.xx.xx.xx:2181");
         FlinkKafkaConsumer<ObjectNode> fissionGroupKafkaConsumer = null;
         FlinkKafkaConsumer<ObjectNode> fissionGroupMemberKafkaConsumer = null;
 
