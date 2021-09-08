@@ -1,30 +1,19 @@
 package com.sinobridge.flink;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.sinobridge.flink.dbops.DbRecoveryOps;
+import com.sinobridge.flink.dbops.CustomDbUtils;
 import com.sinobridge.flink.entity.Fission;
 import com.sinobridge.flink.entity.FissionGroup;
 import com.sinobridge.flink.entity.FissionGroupMember;
-import com.sinobridge.flink.sink.SinkToGreenplum;
 import com.sinobridge.flink.sink.SinkToGreenplumCheckpoint;
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
-import org.apache.flink.runtime.state.StateBackend;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
-import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import org.apache.flink.streaming.api.windowing.windows.Window;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition;
 import org.apache.flink.streaming.util.serialization.JSONKeyValueDeserializationSchema;
@@ -32,7 +21,6 @@ import org.apache.flink.util.Collector;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.util.*;
 
 /**
@@ -96,7 +84,7 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
         //设置从何处开始消费消息
         //auto.offset.reset: Earliest || Latest(缺省值)
         /*
-        select partition_value,max(offset_value) from fission_group group by partition_value;
+        select partition_value,max(offset_value) from fission_group_state group by partition_value;
         得到类似下面的结果：
         分区 | offset
         ---------------
@@ -108,12 +96,14 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
         //创建指定offset需要的map，格式：Map<KafkaTopicPartition, Long>
         Map<KafkaTopicPartition, Long> specificFissionGroupStartOffsets = new HashMap<>();
         Map<KafkaTopicPartition, Long> specificFissionGroupMemberStartOffsets = new HashMap<>();
-
-        DbRecoveryOps dbRecoveryOps = new DbRecoveryOps(properties);
+        HashMap<Integer, Long> fgMap = new HashMap<>();
+        HashMap<Integer, Long> fgmMap = new HashMap<>();
+        CustomDbUtils customDbUtils = new CustomDbUtils(properties);
         try {
             System.out.println("开始获取fission_group的各个partition下的最新offset");
-            HashMap<Integer, Long> fgMap = dbRecoveryOps.fetchFissionGroupPartitionAndOffset();
-            System.out.println(fgMap);
+            String checkFgSql = "select partition_value,max(offset_value) as max_offset from fission_group_state group by partition_value";
+            fgMap = customDbUtils.fetchGroupPartitionAndOffset(checkFgSql);
+
             if (fgMap.isEmpty()) {
                 fissionGroupKafkaConsumer.setStartFromEarliest();
             } else {
@@ -125,8 +115,10 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
             }
 
             System.out.println("开始获取fission_group_member的各个partition下的最新offset");
-            HashMap<Integer, Long> fgmMap = dbRecoveryOps.fetchFissionGroupMemberPartitionAndOffset();
-            System.out.println(fgmMap);
+            //创建数据库连接
+            String checkFgmSql = "select partition_value,max(offset_value) as max_offset from fission_group_member_state group by partition_value";
+            fgmMap = customDbUtils.fetchGroupPartitionAndOffset(checkFgmSql);
+
             if (fgmMap.isEmpty()) {
                 fissionGroupMemberKafkaConsumer.setStartFromEarliest();
             } else {
@@ -208,7 +200,7 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
                 });
 
         //4、sink
-        soso.addSink(new SinkToGreenplumCheckpoint(properties)).name("sink-to-gp");
+        soso.addSink(new SinkToGreenplumCheckpoint(customDbUtils,fgMap,fgmMap)).name("sink-to-gp");
 
         //5、执行execute方法
         try {

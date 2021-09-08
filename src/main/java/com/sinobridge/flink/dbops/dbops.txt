@@ -3,6 +3,48 @@
 alter table fission_group add column offset bigint;
 alter table fission_group add column offset_value bigint;
 
-
 #获取postgres版本
 show server_version
+
+#查看事务隔离级别，pg默认是读已提交
+SELECT current_setting ('default_transaction_isolation');
+SELECT name, setting FROM pg_settings WHERE name ='default_transaction_isolation';
+
+#建表语句：
+#================================================
+--业务表
+drop table if exists fission_group;
+drop table if exists fission_group_member;
+
+create table fission_group(
+id bigint,
+group_code varchar(50)
+) distributed by (id) ;
+
+create table fission_group_member(
+id bigint,
+group_id varchar(50)
+) distributed by (id) ;
+
+--状态表
+drop table if exists fission_group_state;
+drop table if exists fission_group_member_state;
+
+create table fission_group_state(
+partition_value int,
+offset_value bigint,
+insert_time timestamp NOT NULL default CURRENT_TIMESTAMP
+) distributed by (partition_value);
+
+create table fission_group_member_state(
+partition_value int,
+offset_value bigint,
+insert_time timestamp NOT NULL default CURRENT_TIMESTAMP
+) distributed by (partition_value);
+
+
+
+
+
+
+

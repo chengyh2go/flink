@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b310ac2-25c2-490a-9fad-e07e64afd854" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/dbops/CustomDbUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSampleCheckpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/DataStreamKafkaSinkToGPSampleCheckpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/dbops/DbRecoveryOps.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/dbops/dbops.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/dbops/dbops.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplumCheckpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sinobridge/flink/sink/SinkToGreenplumCheckpoint.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -176,6 +181,9 @@
       <workItem from="1630591496695" duration="16692000" />
       <workItem from="1630723245889" duration="14709000" />
       <workItem from="1630764826675" duration="46082000" />
+      <workItem from="1630980147764" duration="8806000" />
+      <workItem from="1631019559274" duration="6836000" />
+      <workItem from="1631101262866" duration="13539000" />
     </task>
     <servers />
   </component>
