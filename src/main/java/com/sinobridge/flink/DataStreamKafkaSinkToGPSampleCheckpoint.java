@@ -1,6 +1,7 @@
 package com.sinobridge.flink;
 
 import com.sinobridge.flink.dbops.CustomDbUtils;
+import com.sinobridge.flink.dbops.CustomTimerTask;
 import com.sinobridge.flink.entity.Fission;
 import com.sinobridge.flink.entity.FissionGroup;
 import com.sinobridge.flink.entity.FissionGroupMember;
@@ -22,6 +23,8 @@ import org.apache.flink.util.Collector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+
+
 
 /**
  * 示例数据：fission_group: {id: 1001, group_code: 'group_code_1'}
@@ -99,14 +102,21 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
         HashMap<Integer, Long> fgMap = new HashMap<>();
         HashMap<Integer, Long> fgmMap = new HashMap<>();
         CustomDbUtils customDbUtils = new CustomDbUtils(properties);
+
+        //定时任务，对state_temp这张表进行整合
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new CustomTimerTask(properties), new Date(), 300000);
+
         try {
-            System.out.println("开始获取fission_group的各个partition下的最新offset");
+            System.out.println( new Date() + " 开始获取fission_group的各个partition下的最新offset");
             String checkFgSql = "select partition_value,max(offset_value) as max_offset from fission_group_state group by partition_value";
             fgMap = customDbUtils.fetchGroupPartitionAndOffset(checkFgSql);
 
             if (fgMap.isEmpty()) {
+                System.out.println("获取到的offset map为空");
                 fissionGroupKafkaConsumer.setStartFromEarliest();
             } else {
+                System.out.println(fgMap);
                 Set<Map.Entry<Integer, Long>> entrySet = fgMap.entrySet();
                 for (Map.Entry<Integer, Long> entry : entrySet) {
                     specificFissionGroupStartOffsets.put(new KafkaTopicPartition(fissionGroupTopic, entry.getKey()),entry.getValue() +1);
@@ -114,14 +124,16 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
                 fissionGroupKafkaConsumer.setStartFromSpecificOffsets(specificFissionGroupStartOffsets);
             }
 
-            System.out.println("开始获取fission_group_member的各个partition下的最新offset");
+            System.out.println(new Date() + " 开始获取fission_group_member的各个partition下的最新offset");
             //创建数据库连接
             String checkFgmSql = "select partition_value,max(offset_value) as max_offset from fission_group_member_state group by partition_value";
             fgmMap = customDbUtils.fetchGroupPartitionAndOffset(checkFgmSql);
 
             if (fgmMap.isEmpty()) {
+                System.out.println("获取到的offset map为空");
                 fissionGroupMemberKafkaConsumer.setStartFromEarliest();
             } else {
+                System.out.println(fgmMap);
                 Set<Map.Entry<Integer, Long>> entrySet = fgmMap.entrySet();
                 for (Map.Entry<Integer, Long> entry : entrySet) {
                     specificFissionGroupMemberStartOffsets.put(new KafkaTopicPartition(fissionGroupMemberTopic, entry.getKey()),entry.getValue()+1);
@@ -192,7 +204,7 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
                         for (Fission item : values) {
                             list.add(item);
                         }
-                        System.out.println(new Date() + " 收集到的条目数：" + list.size());
+                        System.out.println(new Date() + " timeWindow收集到的条目数：" + list.size());
                         if (list.size() > 0) {
                             out.collect(list);
                         }

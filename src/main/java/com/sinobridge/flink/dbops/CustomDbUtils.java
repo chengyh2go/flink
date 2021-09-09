@@ -1,11 +1,15 @@
 package com.sinobridge.flink.dbops;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
 
 public class CustomDbUtils implements Serializable {
 
@@ -58,7 +62,7 @@ public class CustomDbUtils implements Serializable {
     }
 
     //获取分区和offset信息，在程序刚启动时运行，用以判断从哪个offset开始消费kafka数据
-    public HashMap<Integer,Long> fetchGroupPartitionAndOffset(String checkSql)  {
+    public  HashMap<Integer,Long> fetchGroupPartitionAndOffset(String checkSql)  {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -81,6 +85,10 @@ public class CustomDbUtils implements Serializable {
         }
         return hashMap;
     }
+
+
+
+
 
 
 

@@ -1,3 +1,9 @@
+#sql操作
+#复制表和数据
+create table fg_temp as select * from  fission_group_state;
+
+#只复制表结构
+CREATE TABLE dest (like src);
 
 #这个语句会报错，offset是gp里的关键字，要避免使用关键字作为字段
 alter table fission_group add column offset bigint;
@@ -29,6 +35,8 @@ group_id varchar(50)
 --状态表
 drop table if exists fission_group_state;
 drop table if exists fission_group_member_state;
+--状态临时表
+drop table if exists fission_state_temp;
 
 create table fission_group_state(
 partition_value int,
@@ -42,9 +50,9 @@ offset_value bigint,
 insert_time timestamp NOT NULL default CURRENT_TIMESTAMP
 ) distributed by (partition_value);
 
-
-
-
-
+create table fission_state_temp(
+partition_value int,
+offset_value bigint)
+distributed by (partition_value);
 
 

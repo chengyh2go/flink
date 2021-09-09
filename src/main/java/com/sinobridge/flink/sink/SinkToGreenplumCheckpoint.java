@@ -6,15 +6,12 @@ import com.sinobridge.flink.entity.FissionGroup;
 import com.sinobridge.flink.entity.FissionGroupMember;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
-
-public class SinkToGreenplumCheckpoint extends RichSinkFunction<List<Fission>>   {
+public class SinkToGreenplumCheckpoint extends RichSinkFunction<List<Fission>>  {
 
     private CustomDbUtils dbUtils;
     private Connection conn = null;
@@ -124,6 +121,7 @@ public class SinkToGreenplumCheckpoint extends RichSinkFunction<List<Fission>>  
             dbUtils.insertPartitionAndOffset(fission_group_member_stateMap,fgmStatePStmt);
 
             conn.commit();
+
         } catch (SQLException e) {
             try {
                 conn.rollback();
@@ -155,6 +153,7 @@ public class SinkToGreenplumCheckpoint extends RichSinkFunction<List<Fission>>  
         }
         super.close();
     }
+
 
 
     //CheckpointedFunction
