@@ -103,9 +103,9 @@ public class DataStreamKafkaSinkToGPSampleCheckpoint {
         HashMap<Integer, Long> fgmMap = new HashMap<>();
         CustomDbUtils customDbUtils = new CustomDbUtils(properties);
 
-        //定时任务，对state_temp这张表进行整合
+        //开启定时任务，对state_temp这张表进行整合
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new CustomTimerTask(properties), new Date(), 300000);
+        timer.scheduleAtFixedRate(new CustomTimerTask(properties), new Date(), 86400000);
 
         try {
             System.out.println( new Date() + " 开始获取fission_group的各个partition下的最新offset");
