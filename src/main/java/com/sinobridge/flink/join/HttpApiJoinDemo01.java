@@ -27,7 +27,17 @@ public class HttpApiJoinDemo01 {
             }
         });
 
-        SingleOutputStreamOperator<Tuple3<String, String, String>> customMapResult = mapStream.map(new CustomMapJoin());
+        SingleOutputStreamOperator<Tuple3<String, String, String>> customMapResult = mapStream.map(new RichMapFunction<Tuple2<String, String>, Tuple3<String, String, String>>() {
+            @Override
+            public Tuple3<String, String, String> map(Tuple2<String, String> tup2) throws Exception {
+                String xuid = retrieveXUIDFromApi(tup2.f1);
+                return new Tuple3<>(tup2.f0,tup2.f1,xuid);
+            }
+            private String retrieveXUIDFromApi(String clientID) {
+                return HttpUtils.sendGet("http://192.168.250.1:8080/xuid","clientid="+clientID);
+            }
+
+        });
 
         customMapResult.print();
 
@@ -39,18 +49,7 @@ public class HttpApiJoinDemo01 {
 
     }
 
-    static class CustomMapJoin extends RichMapFunction<Tuple2<String, String>, Tuple3<String, String, String>> {
 
-        @Override
-        public Tuple3<String, String, String> map(Tuple2<String, String> tup2) throws Exception {
-            String xuid = retrieveXUIDFromApi(tup2.f1);
-            return new Tuple3<>(tup2.f0,tup2.f1,xuid);
-        }
-
-        private String retrieveXUIDFromApi(String clientID) {
-            return HttpUtils.sendGet("http://192.168.250.1:8080/xuid","clientid="+clientID);
-        }
-    }
 }
 
 
